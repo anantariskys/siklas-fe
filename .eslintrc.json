@@ -1,0 +1,18 @@
+{
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "indent": ["error", 2],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false,
+        "semi": true,
+        "tabWidth": 2,
+        "trailingComma": "es5",
+        "printWidth": 80
+      }
+    ]
+  }
+}
