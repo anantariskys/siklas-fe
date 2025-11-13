@@ -1,14 +1,15 @@
 "use client";
 
 import { ClassifyResponse } from "@/services/classify";
+import { GetDosenByBidangPenelitianResponse } from "@/services/dosen/get-dosen-by-bidang-penelitian";
 
 interface ResultProps {
   result: ClassifyResponse;
-  dosenList: any[] | null;
+  dosenList: GetDosenByBidangPenelitianResponse["data"]["dosen"] | null;
   loadingDosen: boolean;
 }
 
-export default function Result({ result, dosenList, loadingDosen }: ResultProps) {
+export default function Result({ dosenList, loadingDosen }: ResultProps) {
   return (
     <div className="flex flex-1 h-[88.5vh] overflow-y-auto p-4 bg-gray-50">
       <div className="mt-6 w-full">
@@ -22,15 +23,21 @@ export default function Result({ result, dosenList, loadingDosen }: ResultProps)
           <div className="grid-cols-2 gap-4 grid w-full">
             {dosenList.map((dosen) => (
               <div
-                key={dosen.nama + dosen.bidang_penelitian_major + dosen.bidang_penelitian_minor}
+                key={
+                  dosen.nama +
+                  dosen.bidang_penelitian_major +
+                  dosen.bidang_penelitian_minor
+                }
                 className="bg-white p-4 rounded-md border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
               >
                 <p className="font-semibold text-gray-900">{dosen.nama}</p>
                 <p className="text-sm text-gray-700 mt-1">
-                  <span className="font-medium">Mayor:</span> {dosen.bidang_penelitian_major || "-"}
+                  <span className="font-medium">Mayor:</span>{" "}
+                  {dosen.bidang_penelitian_major || "-"}
                 </p>
                 <p className="text-sm text-gray-700">
-                  <span className="font-medium">Minor:</span> {dosen?.bidang_penelitian_minor || "-"}
+                  <span className="font-medium">Minor:</span>{" "}
+                  {dosen?.bidang_penelitian_minor || "-"}
                 </p>
               </div>
             ))}

@@ -3,17 +3,27 @@
 import { useQuery } from "@tanstack/react-query";
 import slugify from "slugify";
 import { useEffect, useState } from "react";
-import { getDosenByBidangPenelitian, GetDosenByBidangPenelitianResponse } from "@/services/dosen/get-dosen-by-bidang-penelitian";
+import {
+  getDosenByBidangPenelitian,
+  GetDosenByBidangPenelitianResponse,
+} from "@/services/dosen/get-dosen-by-bidang-penelitian";
 
 import Result from "./components/result";
 import Form from "./components/form";
 import { useClassify } from "./context/classify-context";
 
 export default function KlasifikasiPage() {
-  const { result ,setResult} = useClassify();
-  const [dosenList, setDosenList] = useState<GetDosenByBidangPenelitianResponse["data"]["dosen"] | null>(null);
+  const { result, setResult } = useClassify();
+  const [dosenList, setDosenList] = useState<
+    GetDosenByBidangPenelitianResponse["data"]["dosen"] | null
+  >(null);
 
-  const { data: dosenData, isLoading: loadingDosen, isError, isSuccess } = useQuery({
+  const {
+    data: dosenData,
+    isLoading: loadingDosen,
+    isError,
+    isSuccess,
+  } = useQuery({
     queryKey: ["dosen", result?.kategori],
     queryFn: () =>
       getDosenByBidangPenelitian({
@@ -31,7 +41,11 @@ export default function KlasifikasiPage() {
   return (
     <div className=" gap-8 items-center w-full relative  justify-center">
       {result ? (
-        <Result result={result} dosenList={dosenList} loadingDosen={loadingDosen} />
+        <Result
+          result={result}
+          dosenList={dosenList}
+          loadingDosen={loadingDosen}
+        />
       ) : (
         <Form setResult={setResult} />
       )}

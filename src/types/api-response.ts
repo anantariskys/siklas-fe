@@ -1,4 +1,4 @@
-export interface SuccessResponse<T = any> {
+export interface SuccessResponse<T> {
   success: true;
   message: string;
   data: T;
@@ -7,6 +7,5 @@ export interface SuccessResponse<T = any> {
 export interface ErrorResponse {
   success: false;
   message: string;
-  errors: any;
+  errors: string;
 }
-

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { getSession } from "next-auth/react";
 
 const api = axios.create({
@@ -17,28 +17,25 @@ const api = axios.create({
 export async function apiRequest<T>(
   method: "get" | "post" | "put" | "delete",
   url: string,
-  data?: any,
+  data?: AxiosRequestConfig["data"],
   options?: {
     withAuth?: boolean;
     config?: AxiosRequestConfig;
-  },
-  customBaseUrl?: string,
+  }
 ): Promise<T> {
   try {
     const headers: Record<string, string> = {};
-    
+
     // 🔑 Ambil token otomatis dari NextAuth session kalau withAuth true
     if (options?.withAuth) {
-      
       const session = await getSession();
-      console.log('TOKENNN',session)
-      const token =  session?.user.token; 
+      console.log("TOKENNN", session);
+      const token = session?.user.token;
 
       if (token) headers["Authorization"] = `Bearer ${token}`;
     }
 
     const response = await api.request<T>({
-      
       method,
       url,
       data,
@@ -47,11 +44,20 @@ export async function apiRequest<T>(
     });
 
     return response.data;
-  } catch (error: any) {
-    console.error("API Error:", error.response?.data || error.message);
-    throw new Error(
-      error.response?.data?.message || "Terjadi kesalahan saat memanggil API"
-    );
+  } catch (error: AxiosError<T> | unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error("API Error:", error.response?.data || error.message);
+      throw new Error(
+        error.response?.data?.message || "Terjadi kesalahan saat memanggil API"
+      );
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error(
+        error instanceof Error
+          ? error.message
+          : "Terjadi kesalahan saat memanggil API"
+      );
+    }
   }
 }
 

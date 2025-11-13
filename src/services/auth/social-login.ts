@@ -1,5 +1,5 @@
 import { apiRequest } from "@/lib/axios";
-import { ErrorResponse, SuccessResponse } from "@/types/api-response";
+import { SuccessResponse } from "@/types/api-response";
 import { AxiosError } from "axios";
 
 export type SocialLoginPayload = {
@@ -11,6 +11,7 @@ export type SocialLoginPayload = {
 
 export type SocialLoginResponse = SuccessResponse<{
   user: {
+    id: string;
     google_id: string;
     name: string;
     email: string;
@@ -38,9 +39,8 @@ export async function socialLogin(
     }
 
     return res;
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof AxiosError) {
-      console.error("Social login error:", err.message);
       throw new Error(err.message || "Terjadi kesalahan saat login");
     }
     throw err;

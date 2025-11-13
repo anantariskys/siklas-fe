@@ -3,8 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ClassifyPayload, classifySchema } from "@/schemas/classifty";
 import { ClassifyResponse, classifySkripsi } from "@/services/classify";
+import { createRiwayat } from "@/services/riwayat/post-riwayat";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
 
 export default function Form({
@@ -12,6 +14,7 @@ export default function Form({
 }: {
   setResult: (res: ClassifyResponse | null) => void;
 }) {
+  const { data: session } = useSession();
   const {
     control,
     handleSubmit,
@@ -24,15 +27,24 @@ export default function Form({
     },
   });
 
-  const {
-    mutate,
-    isPending,
-    isSuccess: isSuccessClassify,
-  } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: classifySkripsi,
     onSuccess: async (res, variables) => {
       console.log("Klasifikasi berhasil:", res);
       setResult(res);
+      // langsung simpan ke backend Laravel
+      try {
+        await createRiwayat({
+          user_id: session?.user.id,
+          judul: variables.judul,
+          abstrak: variables.abstrak,
+          prediksi_topik: res.kategori,
+          confidence_score: res.confidence,
+        });
+        console.log("🗂 Riwayat berhasil disimpan ke backend");
+      } catch (err) {
+        console.error("❌ Gagal menyimpan riwayat:", err);
+      }
     },
 
     onError: (err) => {

@@ -8,7 +8,9 @@ interface ClassifyContextType {
   setResult: (result: ClassifyResponse | null) => void;
 }
 
-const ClassifyContext = createContext<ClassifyContextType | undefined>(undefined);
+const ClassifyContext = createContext<ClassifyContextType | undefined>(
+  undefined
+);
 
 export function ClassifyProvider({ children }: { children: ReactNode }) {
   const [result, setResult] = useState<ClassifyResponse | null>(null);

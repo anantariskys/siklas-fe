@@ -1,5 +1,5 @@
 import { apiRequest } from "@/lib/axios";
-import { ErrorResponse, SuccessResponse } from "@/types/api-response";
+import { SuccessResponse } from "@/types/api-response";
 import { AxiosError } from "axios";
 
 export type GetDosenByBidangPenelitianPayload = {
@@ -26,9 +26,7 @@ export async function getDosenByBidangPenelitian(
       "get",
       `/dosen/${payload.bidangPenelitianSlug}`,
       undefined,
-      { withAuth: true ,
-        
-      }
+      { withAuth: true }
     );
 
     if (!res || !res.data) {
@@ -36,7 +34,7 @@ export async function getDosenByBidangPenelitian(
     }
 
     return res;
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof AxiosError) {
       console.error("Get dosen by bidang penelitian error:", err.message);
       throw new Error(
