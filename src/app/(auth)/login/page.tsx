@@ -1,23 +1,10 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
-  const { status } = useSession();
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push(callbackUrl);
-    }
-  }, [status, router, callbackUrl]);
-
   const handleLogin = () => {
-    signIn("google", { callbackUrl });
+    signIn("google", { callbackUrl: "/dashboard" });
   };
 
   return (
