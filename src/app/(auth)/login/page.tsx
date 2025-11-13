@@ -15,7 +15,7 @@ export default function LoginPage() {
   }, [status, router]);
 
   const handleLogin = () => {
-    signIn("google");
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
