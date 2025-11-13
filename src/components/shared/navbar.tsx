@@ -32,7 +32,7 @@ export default function Navbar() {
             </button>
 
             {open && (
-              <div className="absolute right-0 mt-3 w-44 bg-white text-gray-800 shadow-lg rounded-md py-1">
+              <div className="absolute z-40 right-0 mt-3 w-44 bg-white text-gray-800 shadow-lg rounded-md py-1">
                 <Link
                   href="/settings"
                   className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"

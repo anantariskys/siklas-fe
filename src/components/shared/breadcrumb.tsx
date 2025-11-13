@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Breadcrumb() {
-  const pathname = usePathname()
-  const segments = pathname.split('/').filter(Boolean)
+  const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
 
   const buildPath = (index: number) =>
-    '/' + segments.slice(0, index + 1).join('/')
+    "/" + segments.slice(0, index + 1).join("/");
 
   return (
     <nav className="text-sm text-gray-200">
@@ -20,9 +20,9 @@ export default function Breadcrumb() {
         </li>
 
         {segments.map((segment, index) => {
-          const path = buildPath(index)
-          const isLast = index === segments.length - 1
-          const name = decodeURIComponent(segment)
+          const path = buildPath(index);
+          const isLast = index === segments.length - 1;
+          const name = decodeURIComponent(segment);
 
           return (
             <li key={path} className="flex items-center">
@@ -40,9 +40,9 @@ export default function Breadcrumb() {
                 </Link>
               )}
             </li>
-          )
+          );
         })}
       </ol>
     </nav>
-  )
+  );
 }

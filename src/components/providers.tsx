@@ -1,6 +1,10 @@
 "use client";
 
-import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 import { toast } from "sonner";
@@ -8,7 +12,7 @@ import { Toaster } from "./ui/sonner";
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error?.message || "Terjadi kesalahan saat memuat data");
     },
   }),
