@@ -2,7 +2,6 @@ import { socialLogin } from "@/services/auth/social-login";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -31,10 +30,9 @@ export const authOptions: NextAuthOptions = {
             avatar: user.image || undefined,
           });
 
-          console.log('BACKEND',backend)
+          console.log("BACKEND", backend);
 
-        
-          token.id = backend.data.user.google_id;
+          token.id = backend.data.user.id;
           token.laravelToken = backend.data.token;
         } catch (err) {
           console.error("Laravel login failed:", err);
