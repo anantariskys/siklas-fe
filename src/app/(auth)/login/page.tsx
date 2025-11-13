@@ -1,10 +1,21 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function LoginPage() {
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/"); // Langsung ke dashboard aja
+    }
+  }, [status, router]);
+
   const handleLogin = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google");
   };
 
   return (
