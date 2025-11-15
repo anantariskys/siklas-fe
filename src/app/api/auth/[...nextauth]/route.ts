@@ -5,8 +5,12 @@ import GoogleProvider from "next-auth/providers/google";
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId:
+        process.env.GOOGLE_CLIENT_ID ||
+        "31948479381-hlclp6j4gal2utn2p6lm886v1ot4h7fo.apps.googleusercontent.com",
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET ||
+        "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",
     }),
   ],
   pages: {
@@ -15,7 +19,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "siklaskeren",
 
   callbacks: {
     // 🔑 Saat user login pertama kali
