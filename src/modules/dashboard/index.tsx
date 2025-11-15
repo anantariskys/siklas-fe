@@ -40,6 +40,7 @@ const COLORS = ["#3b82f6", "#facc15", "#10b981"];
 export default function DashboardPage() {
   const session = useSession();
 
+  console.log(session);
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard", session?.data?.user?.id],
     queryFn: () =>
@@ -367,7 +368,7 @@ export default function DashboardPage() {
                       <td className="py-2">{item.abstrak}</td>
                       <td className="py-2">{item.prediksi_topik}</td>
                       <td className="py-2">
-                        {item.confidence_score.toFixed(2)}%
+                        {Number(item.confidence_score).toFixed(2)}%
                       </td>
                       <td className="py-2">
                         {new Date(item.diklasifikasi_pada).toLocaleDateString(

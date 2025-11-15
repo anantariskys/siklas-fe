@@ -25,7 +25,7 @@ export const columns: ColumnDef<RiwayatItem>[] = [
     accessorKey: "confidence_score",
     header: "Akurasi (%)",
     cell: ({ row }) => (
-      <span>{row.original.confidence_score?.toFixed(2) ?? "-"}</span>
+      <span>{Number(row.original.confidence_score).toFixed(2)} %</span>
     ),
   },
   {

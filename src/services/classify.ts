@@ -10,7 +10,7 @@ export async function classifySkripsi(
   payload: ClassifyPayload
 ): Promise<ClassifyResponse> {
   const res = await axios.post<ClassifyResponse>(
-    "http://localhost:5000/classify/",
+    `${process.env.NEXT_PUBLIC_SVM_URL ?? "https://ml.siklas.divisigurutugasduba.com"}/classify`,
     payload
   );
 
