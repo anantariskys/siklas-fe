@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import {
   Card,
@@ -18,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Loader } from "@/components/shared/loader";
 import { LoginPayload, loginSchema } from "@/schemas/auth/login-schema";
+import { env } from "process";
 
 export default function LoginPage() {
   const { status } = useSession();
@@ -36,20 +38,19 @@ export default function LoginPage() {
     },
   });
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      setLoading(false);
-      router.push("/");
-    }
-  }, [status, router]);
-
   const handleAdminLogin = handleSubmit(async (data) => {
     setLoading(true);
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       username: data.username,
       password: data.password,
-      redirect: false,
+      redirect: true,
+      callbackUrl: "/",
     });
+
+    if (!res?.ok) {
+      toast.error("Login gagal");
+      setLoading(false);
+    }
   });
 
   return (
