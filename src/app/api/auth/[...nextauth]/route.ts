@@ -1,67 +1,90 @@
-import { socialLogin } from "@/services/auth/social-login";
+import { login } from "@/services/auth/admin-login";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId:
-        process.env.GOOGLE_CLIENT_ID ||
-        "31948479381-hlclp6j4gal2utn2p6lm886v1ot4h7fo.apps.googleusercontent.com",
-      clientSecret:
-        process.env.GOOGLE_CLIENT_SECRET ||
-        "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",
+    Credentials({
+      name: "Admin Login",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials?.password) {
+          return null;
+        }
+
+        try {
+          const res = await login({
+            username: credentials.username,
+            password: credentials.password,
+          });
+
+          return {
+            id: res.data.user.id,
+            username: res.data.user.username,
+            name: res.data.user.name,
+            role: res.data.user.role,
+            laravelToken: res.data.token,
+            email: res.data.user.email,
+          };
+        } catch (err) {
+          console.error("Admin login gagal:", err);
+          return null;
+        }
+      },
     }),
   ],
+
   pages: {
     signIn: "/login",
   },
+
   session: {
     strategy: "jwt",
+    maxAge: 5 * 60,
   },
-  secret: process.env.NEXTAUTH_SECRET || "siklaskeren",
+
+  jwt: {
+    maxAge: 5 * 60,
+  },
 
   callbacks: {
-    // 🔑 Saat user login pertama kali
     async jwt({ token, user }) {
       if (user) {
-        try {
-          // Kirim data user ke Laravel backend
-          const backend = await socialLogin({
-            google_id: user.id,
-            email: user.email!,
-            name: user.name!,
-            avatar: user.image || undefined,
-          });
-
-          console.log("BACKEND", backend);
-
-          token.id = backend.data.user.id;
-          token.laravelToken = backend.data.token;
-        } catch (err) {
-          console.error("Laravel login failed:", err);
-        }
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+        token.role = user.role as "mahasiswa" | "dosen" | "admin" | "kaprodi";
+        token.username = user.username;
+        token.laravelToken = user.laravelToken;
       }
       return token;
     },
 
-    // 🔑 Saat session diakses di client
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.token = token.laravelToken as string; // token Laravel
+        session.user.role = token.role as
+          | "mahasiswa"
+          | "dosen"
+          | "admin"
+          | "kaprodi";
+        session.user.token = token.laravelToken as string;
+        session.user.email = token.email as string;
+        session.user.name = token.name as string;
+        session.user.username = token.username as string;
       }
       return session;
     },
 
-    // 🔑 Batasi domain email
-    async signIn({ profile }) {
-      if (profile?.email?.endsWith("@student.ub.ac.id")) {
-        return true;
-      }
-      return false;
+    async signIn() {
+      return true; // hanya credentials yang boleh login
     },
   },
+
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
