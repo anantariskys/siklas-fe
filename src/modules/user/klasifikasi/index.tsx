@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import {
   getDosenByBidangPenelitian,
   GetDosenByBidangPenelitianResponse,
-} from "@/services/dosen/get-dosen-by-bidang-penelitian";
+} from "@/services/user/dosen/get-dosen-by-bidang-penelitian";
 
 import Result from "./components/result";
 import Form from "./components/form";

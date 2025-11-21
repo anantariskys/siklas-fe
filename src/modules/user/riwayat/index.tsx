@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { getRiwayatByUser } from "@/services/riwayat/get-riwayat-by-user";
+import { getRiwayatByUser } from "@/services/user/riwayat/get-riwayat-by-user";
 import { useSession } from "next-auth/react";
 import { DataTable } from "@/components/shared/data-table";
 import { columns } from "./columns";

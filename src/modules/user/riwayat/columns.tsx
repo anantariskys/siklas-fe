@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { RiwayatItem } from "@/services/riwayat/get-riwayat-by-user";
+import { RiwayatItem } from "@/services/user/riwayat/get-riwayat-by-user";
 import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<RiwayatItem>[] = [
