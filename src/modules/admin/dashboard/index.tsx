@@ -199,7 +199,10 @@ export default function AdminDashboardPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
-                      data={dashboard.persebaran_bidang}
+                      data={dashboard.persebaran_bidang.map((item) => ({
+                        ...item,
+                        total: Number(item.total),
+                      }))}
                       dataKey="total"
                       nameKey="prediksi_topik"
                       outerRadius={100}

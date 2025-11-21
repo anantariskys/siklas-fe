@@ -51,7 +51,7 @@ export const columns: ColumnDef<RiwayatItem>[] = [
       <div className="text-center">
         {row.original.confidence_score !== null &&
         row.original.confidence_score !== undefined
-          ? `${row.original.confidence_score.toFixed(2)}%`
+          ? `${Number(row.original.confidence_score).toFixed(2)}%`
           : "-"}
       </div>
     ),
