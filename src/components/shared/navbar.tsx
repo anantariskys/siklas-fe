@@ -1,9 +1,8 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { LogOut, Settings, ChevronDown } from "lucide-react";
+import { LogOut, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 import { SidebarTrigger } from "../ui/sidebar";
 import { Separator } from "../ui/separator";
 import Breadcrumb from "./breadcrumb";
@@ -27,18 +26,16 @@ export default function Navbar() {
               onClick={() => setOpen(!open)}
               className="flex items-center gap-2 focus:outline-none"
             >
-              <span>{session.user.email}</span>
+              <div className="flex flex-col items-start">
+                <span className="text-sm text-gray-400">
+                  Welcome, {session.user.name}
+                </span>
+              </div>
               <ChevronDown size={16} />
             </button>
 
             {open && (
               <div className="absolute z-40 right-0 mt-3 w-44 bg-white text-gray-800 shadow-lg rounded-md py-1">
-                <Link
-                  href="/settings"
-                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
-                >
-                  <Settings size={16} /> Settings
-                </Link>
                 <button
                   onClick={() => signOut()}
                   className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left"
