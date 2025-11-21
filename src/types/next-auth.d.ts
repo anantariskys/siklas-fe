@@ -4,20 +4,28 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      googleId: string;
-      token: string;
+      role: "mahasiswa" | "dosen" | "admin" | "kaprodi";
+      email: string;
+      name: string;
+      username: string;
+      token: string; // Laravel token
     } & DefaultSession["user"];
   }
 
   interface User {
     id: string;
-    googleId: string;
-    token: string;
+    role: string;
+    email: string;
+    name: string;
+    username: string;
+    laravelToken: string;
   }
+}
 
-  interface Token {
+declare module "next-auth/jwt" {
+  interface JWT {
     id: string;
-    googleId: string;
-    token: string;
+    role: "mahasiswa" | "dosen" | "admin" | "kaprodi";
+    laravelToken: string;
   }
 }
