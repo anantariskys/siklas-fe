@@ -10,8 +10,9 @@ export type GetDosenByBidangPenelitianResponse = SuccessResponse<{
   bidang: string;
   dosen: {
     nama: string;
-    bidang_penelitian_major: string;
-    bidang_penelitian_minor: string | null;
+    gelar: string;
+    major: string;
+    minor: string[];
   }[];
 }>;
 
