@@ -43,12 +43,14 @@ export default function LoginPage() {
     const res = await signIn("credentials", {
       username: data.username,
       password: data.password,
-      redirect: true,
-      callbackUrl: "/",
+      redirect: false,
     });
 
-    if (!res?.ok) {
+    if (res?.error) {
       toast.error("Login gagal");
+      setLoading(false);
+    } else {
+      router.push("/"); // manual redirect
       setLoading(false);
     }
   });
