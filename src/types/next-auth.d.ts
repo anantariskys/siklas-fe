@@ -8,7 +8,7 @@ declare module "next-auth" {
       email: string;
       name: string;
       username: string;
-      program_studi: string;
+      program_studi?: string;
       token: string; // Laravel token
     } & DefaultSession["user"];
   }
@@ -19,7 +19,7 @@ declare module "next-auth" {
     email: string;
     name: string;
     username: string;
-    program_studi: string;
+    program_studi?: string;
     laravelToken: string;
   }
 }
@@ -29,5 +29,6 @@ declare module "next-auth/jwt" {
     id: string;
     role: "mahasiswa" | "dosen" | "admin" | "kaprodi";
     laravelToken: string;
+    program_studi?: string;
   }
 }

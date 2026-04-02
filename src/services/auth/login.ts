@@ -14,6 +14,7 @@ export type LoginResponse = SuccessResponse<{
     name: string;
     role: "mahasiswa" | "dosen" | "admin" | "kaprodi";
     username: string;
+    program_studi?: string;
   };
   token: string;
 }>;

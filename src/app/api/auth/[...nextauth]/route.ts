@@ -28,6 +28,7 @@ export const authOptions: NextAuthOptions = {
             role: res.data.user.role,
             laravelToken: res.data.token,
             email: res.data.user.email,
+            program_studi: res.data.user.program_studi,
           };
         } catch (err) {
           console.error("Admin login gagal:", err);
@@ -58,6 +59,7 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role as "mahasiswa" | "dosen" | "admin" | "kaprodi";
         token.username = user.username;
         token.laravelToken = user.laravelToken;
+        token.program_studi = user.program_studi;
       }
       return token;
     },
@@ -74,6 +76,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.username = token.username as string;
+        session.user.program_studi = token.program_studi as string;
       }
       return session;
     },
