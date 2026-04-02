@@ -1,16 +1,17 @@
-import { withAuth } from "next-auth/middleware";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-export default withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    const pathname = req.nextUrl.pathname;
+export default auth((req) => {
+  const token = req.auth;
+  const pathname = req.nextUrl.pathname;
 
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
+  if (!token && !pathname.startsWith("/login")) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
-    const role = token.role;
+  if (token) {
+    // @ts-ignore
+    const role = token.user?.role || token.role;
 
     // area admin
     if (pathname.startsWith("/admin")) {
@@ -25,15 +26,10 @@ export default withAuth(
         return NextResponse.redirect(new URL("/admin", req.url));
       }
     }
-
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => !!token,
-    },
   }
-);
+
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: ["/", "/riwayat", "/klasifikasi", "/admin/:path*"],
