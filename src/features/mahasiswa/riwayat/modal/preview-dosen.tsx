@@ -7,7 +7,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { User, Star, GraduationCap } from "lucide-react";
+import { User, GraduationCap } from "lucide-react";
 
 import { getDosenByBidangPenelitian } from "@/services/user/dosen/get-dosen-by-bidang-penelitian";
 import slugify from "slugify";

@@ -24,7 +24,6 @@ export default function KlasifikasiPage() {
   const {
     data: dosenData,
     isLoading: loadingDosen,
-    isError,
     isSuccess,
   } = useQuery({
     queryKey: ["dosen", result?.kategori],

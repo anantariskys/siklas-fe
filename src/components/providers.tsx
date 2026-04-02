@@ -8,7 +8,6 @@ import {
 import { PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 import { toast } from "sonner";
-import { Toaster } from "./ui/sonner";
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({

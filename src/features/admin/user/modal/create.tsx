@@ -31,7 +31,6 @@ import {
   Lock,
   Shield,
   GraduationCap,
-  X,
 } from "lucide-react";
 import { DialogHeader, DialogDescription } from "@/components/ui/dialog";
 import { Loader } from "@/components/shared/loader";

@@ -18,6 +18,7 @@ import {
   BarChart3,
   Users2,
   FileSearch,
+  LucideIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -26,7 +27,7 @@ import { useSession } from "next-auth/react";
 interface MenuItem {
   label: string;
   href: string;
-  icon: any;
+  icon: LucideIcon;
 }
 
 const adminMenu: MenuItem[] = [

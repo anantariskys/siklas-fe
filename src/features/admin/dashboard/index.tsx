@@ -12,7 +12,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
 import {
   BarChart,
   Bar,
@@ -50,6 +49,11 @@ const COLORS = [
   "#3b82f6", // Blue
   "#14b8a6", // Teal
 ];
+
+interface PersebaranBidang {
+  prediksi_topik: string;
+  total: number | string;
+}
 
 export default function AdminDashboardPage() {
   const { data: session } = useSession();
@@ -220,10 +224,12 @@ export default function AdminDashboardPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
-                      data={dashboard.persebaran_bidang.map((item: any) => ({
-                        ...item,
-                        total: Number(item.total),
-                      }))}
+                      data={dashboard.persebaran_bidang.map(
+                        (item: PersebaranBidang) => ({
+                          ...item,
+                          total: Number(item.total),
+                        })
+                      )}
                       dataKey="total"
                       nameKey="prediksi_topik"
                       cx="50%"
@@ -233,7 +239,7 @@ export default function AdminDashboardPage() {
                       labelLine={false}
                     >
                       {dashboard.persebaran_bidang.map(
-                        (_: any, idx: number) => (
+                        (_: PersebaranBidang, idx: number) => (
                           <Cell
                             key={idx}
                             fill={COLORS[idx % COLORS.length]}
@@ -243,7 +249,7 @@ export default function AdminDashboardPage() {
                       )}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [
+                      formatter={(value: number) => [
                         `${value}`,
                         "Jumlah Klasifikasi",
                       ]}
@@ -411,7 +417,7 @@ export default function AdminDashboardPage() {
                     />
                     <Tooltip
                       cursor={{ fill: "#f8fafc" }}
-                      formatter={(val: any) => [
+                      formatter={(val: number) => [
                         `${Number(val).toFixed(1)}%`,
                         "Akurasi",
                       ]}
@@ -429,7 +435,10 @@ export default function AdminDashboardPage() {
                       barSize={18}
                     >
                       {dashboard.akurasi_per_bidang.map(
-                        (_: any, idx: number) => (
+                        (
+                          _: { prediksi_topik: string; rata_akurasi: number },
+                          idx: number
+                        ) => (
                           <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
                         )
                       )}

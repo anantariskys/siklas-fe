@@ -1,4 +1,3 @@
-import { useDataTableModal } from "@/components/shared/data-table/data-table-context";
 import { useQuery } from "@tanstack/react-query";
 
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";

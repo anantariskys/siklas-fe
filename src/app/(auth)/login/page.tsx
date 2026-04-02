@@ -1,37 +1,18 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Loader } from "@/components/shared/loader";
 import { LoginPayload, loginSchema } from "@/schemas/auth/login-schema";
-import { env } from "process";
 
-import {
-  User,
-  Lock,
-  ArrowRight,
-  ShieldCheck,
-  Database,
-  GraduationCap,
-} from "lucide-react";
+import { User, Lock, ArrowRight, ShieldCheck, Database } from "lucide-react";
 
 export default function LoginPage() {
-  const { status } = useSession();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 

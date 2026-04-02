@@ -12,7 +12,7 @@ export default function RiwayatPage() {
   const { data: session } = useSession();
   const { query, onSearch, onPageChange, onLimitChange, search } =
     useTableQuery(10);
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["riwayat", session?.user?.id, query],
     queryFn: () => getRiwayatByUser({ userId: session?.user?.id || "" }, query),
     enabled: !!session?.user?.id,

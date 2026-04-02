@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import { useDataTableModal } from "./data-table-context";
 
 type ModalMap<TData> = {

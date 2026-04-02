@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
   BarChart,
   Bar,
@@ -29,13 +28,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import {
-  BarChart3,
-  CalendarDays,
-  ListChecks,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { BarChart3, CalendarDays, ListChecks, TrendingUp } from "lucide-react";
 
 const PRIMARY = "#262e43";
 const SECONDARY = "#fb9233";
@@ -51,6 +44,18 @@ const COLORS = [
   "#3b82f6", // Blue
   "#14b8a6", // Teal
 ];
+
+interface PersebaranBidang {
+  prediksi_bidang: string;
+  total: number | string;
+}
+
+interface RiwayatItem {
+  judul: string;
+  prediksi_topik: string;
+  confidence_score: number | string;
+  diklasifikasi_pada: string;
+}
 
 export default function DashboardPage() {
   const { data: session } = useSession();
@@ -216,12 +221,14 @@ export default function DashboardPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
-                      data={dashboard.persebaran_bidang.map((item: any) => ({
-                        ...item,
-                        total: Number(item.total),
-                      }))}
+                      data={dashboard.persebaran_bidang.map(
+                        (item: PersebaranBidang) => ({
+                          ...item,
+                          total: Number(item.total),
+                        })
+                      )}
                       dataKey="total"
-                      nameKey="prediksi_topik"
+                      nameKey="prediksi_bidang"
                       cx="50%"
                       cy="50%"
                       outerRadius={85}
@@ -229,7 +236,7 @@ export default function DashboardPage() {
                       labelLine={false}
                     >
                       {dashboard.persebaran_bidang.map(
-                        (_: any, idx: number) => (
+                        (_: PersebaranBidang, idx: number) => (
                           <Cell
                             key={idx}
                             fill={COLORS[idx % COLORS.length]}
@@ -239,7 +246,7 @@ export default function DashboardPage() {
                       )}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [
+                      formatter={(value: number) => [
                         `${value}`,
                         "Jumlah Klasifikasi",
                       ]}
@@ -407,7 +414,7 @@ export default function DashboardPage() {
                     />
                     <Tooltip
                       cursor={{ fill: "#f8fafc" }}
-                      formatter={(val: any) => [
+                      formatter={(val: number) => [
                         `${Number(val).toFixed(1)}%`,
                         "Akurasi",
                       ]}
@@ -425,7 +432,10 @@ export default function DashboardPage() {
                       barSize={18}
                     >
                       {dashboard.akurasi_per_bidang.map(
-                        (_: any, idx: number) => (
+                        (
+                          _: { prediksi_topik: string; rata_akurasi: number },
+                          idx: number
+                        ) => (
                           <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
                         )
                       )}
@@ -541,66 +551,68 @@ export default function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {dashboard.riwayat_terakhir.map((item: any, i: number) => (
-                    <tr
-                      key={i}
-                      className="group transition-colors hover:bg-slate-50/50"
-                    >
-                      <td
-                        className="max-w-[320px] truncate px-6 py-4 font-bold text-slate-700 transition-colors group-hover:text-primary"
-                        title={item.judul}
+                  {dashboard.riwayat_terakhir.map(
+                    (item: RiwayatItem, i: number) => (
+                      <tr
+                        key={i}
+                        className="group transition-colors hover:bg-slate-50/50"
                       >
-                        {item.judul}
-                      </td>
-                      <td className="px-6 py-4">
-                        <Badge className="rounded-sm border-secondary/20 bg-secondary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-secondary shadow-none hover:bg-secondary/10">
-                          {item.prediksi_topik}
-                        </Badge>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex min-w-[100px] flex-col gap-1.5">
-                          <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-tighter">
-                            <span
-                              className={
-                                Number(item.confidence_score) > 80
-                                  ? "text-primary"
+                        <td
+                          className="max-w-[320px] truncate px-6 py-4 font-bold text-slate-700 transition-colors group-hover:text-primary"
+                          title={item.judul}
+                        >
+                          {item.judul}
+                        </td>
+                        <td className="px-6 py-4">
+                          <Badge className="rounded-sm border-secondary/20 bg-secondary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-secondary shadow-none hover:bg-secondary/10">
+                            {item.prediksi_topik}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex min-w-[100px] flex-col gap-1.5">
+                            <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-tighter">
+                              <span
+                                className={
+                                  Number(item.confidence_score) > 80
+                                    ? "text-primary"
+                                    : Number(item.confidence_score) > 60
+                                      ? "text-secondary"
+                                      : "text-rose-500"
+                                }
+                              >
+                                {Number(item.confidence_score) > 80
+                                  ? "High"
                                   : Number(item.confidence_score) > 60
-                                    ? "text-secondary"
-                                    : "text-rose-500"
-                              }
-                            >
-                              {Number(item.confidence_score) > 80
-                                ? "High"
-                                : Number(item.confidence_score) > 60
-                                  ? "Medium"
-                                  : "Low"}
-                            </span>
-                            <span className="text-slate-400">
-                              {Number(item.confidence_score).toFixed(1)}%
-                            </span>
+                                    ? "Medium"
+                                    : "Low"}
+                              </span>
+                              <span className="text-slate-400">
+                                {Number(item.confidence_score).toFixed(1)}%
+                              </span>
+                            </div>
+                            <div className="h-1.5 w-full overflow-hidden rounded-full border border-slate-200/50 bg-slate-100 p-0.5">
+                              <div
+                                className={`h-full rounded-full transition-all duration-500 ${Number(item.confidence_score) > 80 ? "bg-primary" : Number(item.confidence_score) > 60 ? "bg-secondary" : "bg-rose-500"}`}
+                                style={{
+                                  width: `${Number(item.confidence_score)}%`,
+                                }}
+                              />
+                            </div>
                           </div>
-                          <div className="h-1.5 w-full overflow-hidden rounded-full border border-slate-200/50 bg-slate-100 p-0.5">
-                            <div
-                              className={`h-full rounded-full transition-all duration-500 ${Number(item.confidence_score) > 80 ? "bg-primary" : Number(item.confidence_score) > 60 ? "bg-secondary" : "bg-rose-500"}`}
-                              style={{
-                                width: `${Number(item.confidence_score)}%`,
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 font-bold tabular-nums text-slate-500">
-                        {new Date(item.diklasifikasi_pada).toLocaleDateString(
-                          "id-ID",
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td className="px-6 py-4 font-bold tabular-nums text-slate-500">
+                          {new Date(item.diklasifikasi_pada).toLocaleDateString(
+                            "id-ID",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>

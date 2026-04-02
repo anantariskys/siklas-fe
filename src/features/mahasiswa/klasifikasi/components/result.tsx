@@ -31,7 +31,6 @@ interface ResultProps {
   onReset?: () => void;
 }
 
-const PRIMARY = "#262e43";
 const SECONDARY = "#fb9233";
 
 export default function Result({
