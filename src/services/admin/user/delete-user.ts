@@ -17,7 +17,7 @@ export async function deleteUser(userId: string): Promise<DeleteUserResponse> {
       { withAuth: true } // perlu token karena ini untuk menghapus user
     );
 
-    if (!res || !res.data) {
+    if (!res || !res.success) {
       throw new Error("Gagal menghapus user");
     }
 

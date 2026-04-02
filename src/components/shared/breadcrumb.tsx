@@ -12,9 +12,9 @@ export default function Breadcrumb() {
 
   return (
     <nav className="text-sm text-gray-200">
-      <ol className="flex items-center flex-wrap">
+      <ol className="flex flex-wrap items-center">
         <li>
-          <Link href="/" className="hover:underline text-gray-100 font-medium">
+          <Link href="/" className="font-medium text-gray-100 hover:underline">
             Home
           </Link>
         </li>
@@ -28,7 +28,7 @@ export default function Breadcrumb() {
             <li key={path} className="flex items-center">
               <span className="mx-2 text-gray-300">/</span>
               {isLast ? (
-                <span className="capitalize text-gray-100 font-medium">
+                <span className="font-medium capitalize text-gray-100">
                   {name}
                 </span>
               ) : (

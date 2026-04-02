@@ -27,33 +27,7 @@ export const queryClient = new QueryClient({
 export default function Providers({ children }: PropsWithChildren) {
   return (
     <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <Toaster
-          position="bottom-right"
-          richColors
-          closeButton
-          toastOptions={{
-            classNames: {
-              toast: `
-                !rounded-xl !shadow-xl !border
-                !backdrop-blur-md
-                !bg-secondary/90 !text-foreground
-                !transition-all !duration-300
-                hover:!bg-secondary/100
-              `,
-              description: "!text-muted-foreground/90",
-              actionButton: `
-                !bg-primary !text-primary-foreground 
-                !rounded-lg hover:!brightness-110 transition
-              `,
-              closeButton: `
-                !text-foreground hover:!text-primary transition
-              `,
-            },
-          }}
-        />
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </SessionProvider>
   );
 }

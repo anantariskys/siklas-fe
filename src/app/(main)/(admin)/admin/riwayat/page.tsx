@@ -1,4 +1,4 @@
-import RiwayatsPage from "@/modules/admin/riwayat";
+import RiwayatsPage from "@/features/admin/riwayat";
 
 export default function Riwayat() {
   return <RiwayatsPage />;

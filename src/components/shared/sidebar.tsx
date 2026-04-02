@@ -12,23 +12,45 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LayoutDashboard, Users, BarChart3, Users2 } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  BarChart3,
+  Users2,
+  FileSearch,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-const userMenu = [
-  { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Klasifikasi", href: "/klasifikasi", icon: Users },
-  { label: "Riwayat", href: "/riwayat", icon: BarChart3 },
-];
+interface MenuItem {
+  label: string;
+  href: string;
+  icon: any;
+}
 
-const adminMenu = [
+const adminMenu: MenuItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "User", href: "/admin/users", icon: Users },
   { label: "Data Dosen", href: "/admin/dosens", icon: Users2 },
-
   { label: "Riwayat Klasifikasi", href: "/admin/riwayat", icon: BarChart3 },
+];
+
+const kaprodiMenu: MenuItem[] = [
+  { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Riwayat", href: "/riwayat", icon: BarChart3 },
+];
+
+const dosenMenu: MenuItem[] = [
+  { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Klasifikasi", href: "/klasifikasi", icon: FileSearch },
+  { label: "Riwayat", href: "/riwayat", icon: BarChart3 },
+];
+
+const mahasiswaMenu: MenuItem[] = [
+  { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Klasifikasi", href: "/klasifikasi", icon: FileSearch },
+  { label: "Riwayat", href: "/riwayat", icon: BarChart3 },
 ];
 
 export default function AppSidebar() {
@@ -42,7 +64,7 @@ export default function AppSidebar() {
     return (
       <Sidebar
         variant="inset"
-        className="border-r w-64 hidden md:flex min-h-screen"
+        className="hidden min-h-screen w-64 border-r md:flex"
       >
         <SidebarHeader className="px-4 py-4">
           <Skeleton className="h-5 w-32" />
@@ -75,20 +97,37 @@ export default function AppSidebar() {
   // ============================
   //       ROLE MENU HANDLING
   // ============================
-  const role = session?.user?.role;
-  const menuItems = role === "admin" ? adminMenu : userMenu;
+  const role = session?.user?.role?.toLowerCase();
+
+  let menuItems: MenuItem[] = [];
+
+  switch (role) {
+    case "admin":
+      menuItems = adminMenu;
+      break;
+    case "kaprodi":
+      menuItems = kaprodiMenu;
+      break;
+    case "dosen":
+      menuItems = dosenMenu;
+      break;
+    case "mahasiswa":
+    default:
+      menuItems = mahasiswaMenu;
+      break;
+  }
 
   return (
-    <Sidebar variant="inset" className="border-r w-64 hidden md:flex">
+    <Sidebar variant="inset" className="hidden w-64 border-r md:flex">
       <SidebarHeader className="px-4 py-4">
-        <h1 className="font-semibold text-secondary text-lg">
+        <h1 className="text-lg font-semibold text-secondary">
           Siklas <span className="text-gray-200">FILKOM</span>
         </h1>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="px-4 text-slate-300 text-sm font-semibold">
+          <SidebarGroupLabel className="px-4 text-sm font-semibold text-slate-300">
             Menu
           </SidebarGroupLabel>
 
@@ -99,7 +138,7 @@ export default function AppSidebar() {
                   <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <Link
                       href={item.href}
-                      className={`flex items-center px-4 py-2 rounded-md transition-colors ${
+                      className={`flex items-center rounded-md px-4 py-2 transition-colors ${
                         pathname === item.href
                           ? "bg-slate-300 text-white"
                           : "text-slate-300 hover:bg-gray-100"

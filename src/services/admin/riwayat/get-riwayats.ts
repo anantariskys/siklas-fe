@@ -45,7 +45,7 @@ export async function getRiwayats(
 
     const res = await apiRequest<GetRiwayatsResponse>(
       "get",
-      `/admin/riwayat-klasifikasi`,
+      `/riwayat-klasifikasi`,
       undefined,
       {
         withAuth: true,

@@ -20,7 +20,7 @@ export function DataTablePagination({
   const lastPage = Math.max(1, Math.ceil(total / limit));
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between py-4 gap-4">
+    <div className="flex flex-col items-center justify-between gap-4 py-4 sm:flex-row">
       <div className="text-sm text-gray-600">
         Halaman {page} dari {lastPage} • Total {total} data
       </div>
@@ -45,7 +45,7 @@ export function DataTablePagination({
         </Button>
 
         <select
-          className="border rounded-md px-2 py-1 text-sm"
+          className="rounded-md border px-2 py-1 text-sm"
           value={limit}
           onChange={(e) => onLimitChange(Number(e.target.value))}
         >

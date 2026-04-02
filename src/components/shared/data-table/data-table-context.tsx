@@ -1,31 +1,32 @@
 /* eslint-disable */
 "use client";
+
 import React, { createContext, useContext, useState } from "react";
 
-type ModalType = "add" | "edit" | "delete" | null;
+export type ModalType = string; // bebas, tidak dikunci lagi
 
-interface DataTableModalContextType<T = any> {
+export interface DataTableModalContextType<TData> {
   open: boolean;
-  type: ModalType;
-  data: T | null;
-  openModal: (type: ModalType, data?: T) => void;
+  type: ModalType | null;
+  data: TData | null;
+  openModal: (type: ModalType, data?: TData) => void;
   closeModal: () => void;
 }
 
-const DataTableModalContext = createContext<DataTableModalContextType | null>(
-  null
-);
+const DataTableModalContext = createContext<
+  DataTableModalContextType<any> | undefined
+>(undefined);
 
-export function DataTableModalProvider<T>({
+export function DataTableModalProvider<TData>({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState<ModalType>(null);
-  const [data, setData] = useState<T | null>(null);
+  const [type, setType] = useState<ModalType | null>(null);
+  const [data, setData] = useState<TData | null>(null);
 
-  const openModal = (modalType: ModalType, payload?: T) => {
+  const openModal = (modalType: ModalType, payload?: TData) => {
     setType(modalType);
     setData(payload || null);
     setOpen(true);
@@ -46,8 +47,12 @@ export function DataTableModalProvider<T>({
   );
 }
 
-export function useDataTableModal<T>() {
-  const ctx = useContext(DataTableModalContext);
-  if (!ctx) throw new Error("Must be used inside DataTableModalProvider");
-  return ctx as DataTableModalContextType<T>;
+export function useDataTableModal<TData>() {
+  const context = useContext(DataTableModalContext);
+  if (!context) {
+    throw new Error(
+      "useDataTableModal must be used within DataTableModalProvider"
+    );
+  }
+  return context as DataTableModalContextType<TData>;
 }

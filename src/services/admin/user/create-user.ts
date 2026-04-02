@@ -25,7 +25,7 @@ export async function createUser(
       { withAuth: true } // perlu token karena ini untuk membuat user
     );
 
-    if (!res || !res.data) {
+    if (!res || !res.success) {
       throw new Error("Gagal membuat user");
     }
 

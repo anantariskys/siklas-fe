@@ -8,6 +8,7 @@ declare module "next-auth" {
       email: string;
       name: string;
       username: string;
+      program_studi: string;
       token: string; // Laravel token
     } & DefaultSession["user"];
   }
@@ -18,6 +19,7 @@ declare module "next-auth" {
     email: string;
     name: string;
     username: string;
+    program_studi: string;
     laravelToken: string;
   }
 }

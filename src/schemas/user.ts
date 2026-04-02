@@ -6,6 +6,7 @@ export const createUserSchema = z.object({
   email: z.string().email("Email tidak valid"),
   password: z.string().min(6, "Password minimal 6 karakter"),
   role: z.string().min(1, "Role wajib dipilih"),
+  program_studi: z.string(),
 });
 
 export const updateUserSchema = createUserSchema.partial().extend({

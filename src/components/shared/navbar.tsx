@@ -6,14 +6,20 @@ import { useState } from "react";
 import { SidebarTrigger } from "../ui/sidebar";
 import { Separator } from "../ui/separator";
 import Breadcrumb from "./breadcrumb";
+import { toast } from "sonner";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
+  const handleLogout = async () => {
+    toast.success("Logout berhasil!");
+    await signOut({ callbackUrl: "/login" });
+  };
+
   return (
-    <nav className=" z-50 bg-primary w-full text-white shadow-sm">
-      <div className="flex justify-between items-center px-6 h-16">
+    <nav className="z-50 w-full bg-primary text-white shadow-sm">
+      <div className="flex h-16 items-center justify-between px-6">
         <div className="flex h-full items-center gap-3">
           <SidebarTrigger />
           <Separator orientation="vertical" className="h-6 bg-gray-300/50" />
@@ -35,10 +41,10 @@ export default function Navbar() {
             </button>
 
             {open && (
-              <div className="absolute z-40 right-0 mt-3 w-44 bg-white text-gray-800 shadow-lg rounded-md py-1">
+              <div className="absolute right-0 z-40 mt-3 w-44 rounded-md bg-white py-1 text-gray-800 shadow-lg">
                 <button
-                  onClick={() => signOut()}
-                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left"
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-gray-100"
                 >
                   <LogOut size={16} /> Logout
                 </button>

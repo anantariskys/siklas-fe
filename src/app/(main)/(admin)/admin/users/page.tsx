@@ -1,4 +1,4 @@
-import UserPage from "@/modules/admin/user";
+import UserPage from "@/features/admin/user";
 
 export default function User() {
   return <UserPage />;

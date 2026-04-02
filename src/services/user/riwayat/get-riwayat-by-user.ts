@@ -1,5 +1,6 @@
 import { apiRequest } from "@/lib/axios";
-import { SuccessResponse } from "@/types/api-response";
+import { SuccessPaginationResponse } from "@/types/api-response";
+import { DatatableQuery } from "@/types/data-table";
 import { AxiosError } from "axios";
 
 export type GetRiwayatByUserPayload = {
@@ -21,20 +22,30 @@ export type RiwayatItem = {
   };
 };
 
-export type GetRiwayatByUserResponse = SuccessResponse<RiwayatItem[]>;
+export type GetRiwayatByUserResponse = SuccessPaginationResponse<RiwayatItem>;
 
 /**
  * Fungsi untuk mendapatkan riwayat klasifikasi berdasarkan user
  */
 export async function getRiwayatByUser(
-  payload: GetRiwayatByUserPayload
+  payload: GetRiwayatByUserPayload,
+  query: DatatableQuery = {}
 ): Promise<GetRiwayatByUserResponse> {
+  const params = new URLSearchParams();
+  if (query.page) params.append("page", String(query.page));
+  if (query.limit) params.append("limit", String(query.limit));
+  if (query.search) params.append("search", query.search);
   try {
     const res = await apiRequest<GetRiwayatByUserResponse>(
       "get",
-      `/riwayat-klasifikasi/user/${payload.userId}`,
+      `/riwayat-klasifikasi`,
       undefined,
-      { withAuth: true }
+      {
+        withAuth: true,
+        config: {
+          params: params,
+        },
+      }
     );
 
     if (!res || !res.data) {

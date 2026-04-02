@@ -10,7 +10,7 @@ interface ToolbarProps {
   searchKey?: string | number | symbol | undefined;
   onRefresh?: () => void;
   children?: React.ReactNode;
-  addModal?: React.ReactNode;
+  showAddButton?: boolean; // cuma flag, bukan ReactNode
 }
 
 export function DataTableToolbar<TData>({
@@ -19,10 +19,10 @@ export function DataTableToolbar<TData>({
   searchKey,
   onRefresh,
   children,
-  addModal,
+  showAddButton = true,
 }: ToolbarProps) {
   const { openModal } = useDataTableModal<TData>();
-  if (!searchKey && !children && !addModal && !onRefresh) return null;
+  if (!searchKey && !children && !showAddButton && !onRefresh) return null;
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -42,11 +42,11 @@ export function DataTableToolbar<TData>({
 
       {onRefresh && (
         <Button variant="outline" size="sm" onClick={onRefresh}>
-          <RefreshCw className="w-4 h-4 mr-2" /> Segarkan
+          <RefreshCw className="mr-2 h-4 w-4" /> Segarkan
         </Button>
       )}
       {/* SLOT MODAL TAMBAHAN */}
-      {addModal && (
+      {showAddButton && (
         <Button
           className="bg-primary"
           size="sm"

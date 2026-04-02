@@ -1,5 +1,5 @@
+import { RoleFilter } from "@/features/admin/user";
 import { apiRequest } from "@/lib/axios";
-import { RoleFilter } from "@/modules/admin/user";
 import { SuccessPaginationResponse } from "@/types/api-response";
 import { DatatableQuery } from "@/types/data-table";
 import { AxiosError } from "axios";
@@ -14,6 +14,7 @@ export type UserItem = {
   provider_id?: string | null;
   avatar?: string;
   role: string;
+  program_studi: string;
   username: string;
   created_at: string;
   updated_at: string;

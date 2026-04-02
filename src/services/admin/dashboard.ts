@@ -31,12 +31,15 @@ export type DashboardStats = {
     tinggi: number;
   };
 
-  riwayat_terbaru: {
+  riwayat_terakhir: {
     user_id: number;
     judul: string;
     prediksi_topik: string;
     confidence_score: number;
     diklasifikasi_pada: string;
+    user?: {
+      name: string;
+    };
   }[];
 };
 
@@ -49,7 +52,7 @@ export async function getAdminDashboardStats(): Promise<GetDashboardStatsRespons
   try {
     const res = await apiRequest<GetDashboardStatsResponse>(
       "get",
-      "/admin/dashboard",
+      "/dashboard",
       undefined,
       {
         withAuth: true,

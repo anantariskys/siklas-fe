@@ -26,7 +26,7 @@ export async function updateUser(
       { withAuth: true } // perlu token karena ini untuk memperbarui user
     );
 
-    if (!res || !res.data) {
+    if (!res || !res.success) {
       throw new Error("Gagal memperbarui user");
     }
 

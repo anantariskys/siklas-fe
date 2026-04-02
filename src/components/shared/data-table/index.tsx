@@ -40,9 +40,10 @@ export interface DataTableProps<TData, TValue> {
   onLimitChange?: (newLimit: number) => void;
   searchValue?: string;
   toolbarExtra?: React.ReactNode;
-  addModal?: React.ReactNode;
-  editModal?: (data: TData) => React.ReactNode;
-  deleteModal?: (data: TData) => React.ReactNode;
+  modals?: {
+    [key: string]: (data?: TData) => React.ReactNode;
+  };
+  showAddButton?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -69,9 +70,8 @@ export function DataTable<TData, TValue>({
   /**
    * modal tambahan untuk add, edit, delete
    */
-  addModal,
-  editModal,
-  deleteModal,
+  modals,
+  showAddButton = true,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
@@ -100,12 +100,12 @@ export function DataTable<TData, TValue>({
           searchKey={searchKey}
           onSearchChange={onSearchInput}
           search={searchValue}
-          addModal={addModal}
+          showAddButton={showAddButton}
         >
           {toolbarExtra}
         </DataTableToolbar>
 
-        <div className="rounded-2xl border bg-white shadow-sm overflow-hidden">
+        <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
           <Table>
             <TableHeader className="bg-gray-50">
               {table.getHeaderGroups().map((headerGroup) => (
@@ -153,7 +153,7 @@ export function DataTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="text-center text-gray-500 py-8"
+                    className="py-8 text-center text-gray-500"
                   >
                     Tidak ada data untuk ditampilkan.
                   </TableCell>
@@ -178,11 +178,7 @@ export function DataTable<TData, TValue>({
             />
           )}
 
-        <DataTableModals
-          addModal={addModal}
-          editModal={editModal}
-          deleteModal={deleteModal}
-        />
+        <DataTableModals modals={modals || {}} />
       </div>
     </DataTableModalProvider>
   );
