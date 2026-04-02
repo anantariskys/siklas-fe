@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { getSession } from "next-auth/react";
 
 const api = axios.create({
@@ -46,7 +46,7 @@ export async function apiRequest<T>(
     });
 
     return response.data;
-  } catch (error: AxiosError<T> | unknown) {
+  } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("API Error:", error.response?.data || error.message);
       throw new Error(

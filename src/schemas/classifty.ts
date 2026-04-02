@@ -6,4 +6,3 @@ export const classifySchema = z.object({
 });
 
 export type ClassifyPayload = z.infer<typeof classifySchema>;
-``;
