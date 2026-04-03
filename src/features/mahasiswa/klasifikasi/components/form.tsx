@@ -96,7 +96,7 @@ export default function Form({
               Klasifikasi Bidang Penelitian
             </CardTitle>
             <CardDescription className="mt-2 max-w-xl text-xs font-medium leading-relaxed text-slate-300 sm:text-sm">
-              Masukkan judul dan abstrak penelitian Anda. Sistem cerdas kami
+              Masukkan judul penelitian Anda (Wajib) dan abstrak (Opsional). Sistem cerdas kami
               akan menganalisis teks menggunakan algoritma SVM untuk menentukan
               kategori bidang penelitian.
             </CardDescription>
@@ -113,7 +113,10 @@ export default function Form({
                   htmlFor="judul"
                   className="text-[10px] font-black uppercase tracking-widest text-slate-500 sm:text-xs"
                 >
-                  Judul Skripsi
+                  <span className="flex items-center gap-1.5">
+                    Judul Skripsi
+                    <Badge variant="secondary" className="h-4 bg-[#fb9233] px-1 text-[8px] font-black uppercase text-[#262e43]">Wajib</Badge>
+                  </span>
                 </Label>
               </div>
               <Controller
@@ -144,7 +147,10 @@ export default function Form({
                   htmlFor="abstrak"
                   className="text-[10px] font-black uppercase tracking-widest text-slate-500 sm:text-xs"
                 >
-                  Abstrak Penelitian
+                  <span className="flex items-center gap-1.5">
+                    Abstrak Penelitian
+                    <Badge variant="outline" className="h-4 border-slate-300 px-1 text-[8px] font-black uppercase text-slate-400">Opsional</Badge>
+                  </span>
                 </Label>
               </div>
               <Controller

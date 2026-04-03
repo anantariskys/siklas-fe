@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const classifySchema = z.object({
-  judul: z.string().min(1, "Judul minimal 1 karakter"),
-  abstrak: z.string().min(1, "Abstrak minimal 1 karakter"),
+  judul: z.string().min(1, "Judul wajib diisi"),
+  abstrak: z.string().optional(),
 });
 
 export type ClassifyPayload = z.infer<typeof classifySchema>;
