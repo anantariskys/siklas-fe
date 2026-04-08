@@ -26,7 +26,7 @@ export type DashboardStats = {
     };
   };
   persebaran_bidang?: {
-    prediksi_bidang: string;
+    prediksi_topik: string;
     total: number;
   }[];
   tren_per_bulan?: {
