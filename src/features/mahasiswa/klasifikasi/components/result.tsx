@@ -22,6 +22,7 @@ import {
   ArrowRight,
   Star,
 } from "lucide-react";
+import Link from "next/link";
 
 interface ResultProps {
   result: ClassifyResponse;
@@ -209,12 +210,15 @@ export default function Result({
                 <br />
                 Klasifikasi
               </h4>
-              <div className="relative z-10 flex w-fit items-center gap-2 rounded-full bg-white/20 px-4 py-2 backdrop-blur-sm">
+              <Link
+                href={"/riwayat"}
+                className="relative z-10 flex w-fit items-center gap-2 rounded-full bg-white/20 px-4 py-2 backdrop-blur-sm"
+              >
                 <span className="text-xs font-bold uppercase tracking-tighter antialiased">
                   Lihat Arsip Anda
                 </span>
                 <ArrowRight className="h-4 w-4" />
-              </div>
+              </Link>
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ const COLORS = [
 ];
 
 interface PersebaranBidang {
-  prediksi_bidang: string;
+  prediksi_topik: string;
   total: number | string;
 }
 
@@ -228,7 +228,7 @@ export default function DashboardPage() {
                         })
                       )}
                       dataKey="total"
-                      nameKey="prediksi_bidang"
+                      nameKey="prediksi_topik"
                       cx="50%"
                       cy="50%"
                       outerRadius={85}
